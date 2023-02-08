@@ -18,17 +18,12 @@ module.exports = {
       content: {
         type: Sequelize.STRING
       },
-      AgentId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: {
-            tableName: "Agents",
-          },
-          key: "id",
-        },
-        onDelete: "cascade",
-        onUpdate: "cascade",
+      agent_uuid: {
+        type: Sequelize.STRING
+      },
+      uuid: {
+        unique: true,
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
