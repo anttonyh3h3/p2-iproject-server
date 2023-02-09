@@ -67,7 +67,7 @@ class Controller {
         client_secret: DISCORD_CLIENT_SECRET,
         grant_type: "authorization_code",
         code: dcCode.toString(),
-        redirect_uri: "http://localhost:2600/login",
+        redirect_uri: "https://apsekill.web.app/login",
       });
 
       const { data } = await axios.post(
