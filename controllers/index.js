@@ -60,13 +60,26 @@ class Controller {
           res.status(200).json({
             access_token,
             username: logUser.username,
-            email: logUser.email,
-            role: logUser.status,
+            status: logUser.status,
           });
         }
       }
     } catch (error) {
       next(error);
+    }
+  }
+
+  // Fetch Pros data
+  static async fetchPros(req, res, next) {
+    try {
+      const dataPros = await Pro.findAll({
+        attributes: ["uuid", "name", "photoUrl", "content", "agent_uuid"],
+        order: [["id", "ASC"]],
+      })
+
+      res.status(200).json(dataPros)
+    } catch (error) {
+      next(error)
     }
   }
 
@@ -91,7 +104,7 @@ class Controller {
     }
   }
 
-  // Read coaching appointments by specific user
+  // Fetch coaching appointments by specific user
   static async fetchUserCoaching(req, res, next) {
     try {
       const myCoaching = await Coaching.findAll({
