@@ -59,33 +59,37 @@
 
 // console.log(uuid);
 
-const testName = "picha@mail.com"
-const password = "pass"
-let isEmail = false
-let email;
-let username;
+// const testName = "picha@mail.com"
+// const password = "pass"
+// let isEmail = false
+// let email;
+// let username;
 
-for (let i = 0; i < testName.length; i++) {
-  // console.log(testName[i]);
-  if (testName[i] === "@") {
-    isEmail = true
-  }
-}
+// for (let i = 0; i < testName.length; i++) {
+//   // console.log(testName[i]);
+//   if (testName[i] === "@") {
+//     isEmail = true
+//   }
+// }
 
-const test = () => {
-  let obj = {}
+// const test = () => {
+//   let obj = {}
 
-  if (isEmail) {
-    obj.email = testName
-    obj.password = password
-    return obj
-  } else {
-    obj.username = testName;
-    obj.password = password
-    return obj
-  }
-}
+//   if (isEmail) {
+//     obj.email = testName
+//     obj.password = password
+//     return obj
+//   } else {
+//     obj.username = testName;
+//     obj.password = password
+//     return obj
+//   }
+// }
 
+// console.log(test());
 
+const { v4 } = require("uuid")
 
-console.log(test());
+const uuid = v4()
+
+console.log(uuid);
