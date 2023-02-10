@@ -17,6 +17,7 @@ class PartiesController {
         agentDetail.uuid = e.uuid;
         agentDetail.name = e.displayName;
         agentDetail.description = e.description;
+        agentDetail.icon = e.displayIcon;
         agentDetail.imgUrl = e.fullPortrait;
         agentDetail.role = e.role;
         agentDetail.abilities = e.abilities;
@@ -41,10 +42,12 @@ class PartiesController {
         method: "GET",
       });
 
-      const resultData = data.data
+      const resultData = data.data;
 
       detailAgent.uuid = resultData.uuid;
       detailAgent.name = resultData.displayName;
+      detailAgent.description = resultData.description;
+      detailAgent.icon = resultData.displayIcon;
       detailAgent.imgUrl = resultData.fullPortrait;
       detailAgent.role = resultData.role;
       detailAgent.abilities = resultData.abilities;

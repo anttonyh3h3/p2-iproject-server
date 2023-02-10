@@ -1,14 +1,17 @@
 const CLIENT_ID = process.env.CLIENT_ID;
 const DISCORD_CLIENT_ID = process.env.DISCORD_API_CLIENT_ID;
 const DISCORD_CLIENT_SECRET = process.env.DISCORD_API_CLIENT_SECRET;
+const { mailToUser, mailToAdmin } = require("../helpers/sendMail")
+const { userTemplate, adminTemplate } = require("../helpers/emailTemplate")
 const { User, Coaching, Pro } = require("../models");
+const { default: axios } = require("axios");
+const { OAuth2Client } = require("google-auth-library");
 const { decryptPass } = require("../helpers/hash");
 const { signToken } = require("../helpers/jwt");
 const { v4 } = require("uuid");
-const { OAuth2Client } = require("google-auth-library");
-const client = new OAuth2Client(CLIENT_ID);
 const url = require("url");
-const { default: axios } = require("axios");
+const client = new OAuth2Client(CLIENT_ID);
+
 
 class Controller {
   // Google Oauth
@@ -107,6 +110,7 @@ class Controller {
       if (created) {
         res.status(201).json({
           access_token: signToken({ uuid: user.uuid }),
+          email: user.email,
           username: user.username,
           status: user.status,
         });
@@ -178,6 +182,7 @@ class Controller {
 
           res.status(200).json({
             access_token,
+            email: logUser.email,
             username: logUser.username,
             status: logUser.status,
           });
@@ -205,17 +210,21 @@ class Controller {
   // Add coaching appointments
   static async createAppointment(req, res, next) {
     try {
-      const { id } = req.params;
-      const { date } = req.body;
+      const { uuid } = req.params;
+      const { date, link, email } = req.body;
 
-      const coach = await Pro.findByPk(id);
+      const coach = await Pro.findOne({ where: { uuid } });
 
       const apply = await Coaching.create({
         UserId: req.user.id,
-        ProId: id,
+        ProId: coach.id,
         appointment: date,
         status: "Onprogress",
       });
+
+      mailToUser(email, coach.name, userTemplate(req.user.username, coach.name, date))
+
+      mailToAdmin("muhammadcatur.sp@gmail.com", req.user.username, coach.name, adminTemplate(req.user.username, coach.name, date, link))
 
       res.status(201).json({ message: `Applied for coach ${coach.name}` });
     } catch (error) {

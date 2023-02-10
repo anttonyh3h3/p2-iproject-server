@@ -20,7 +20,7 @@
 
 //       agentsData.push(agentDetail)
 //     });
-    
+
 //     console.log(agentsData);
 //   })
 //   .catch(error => {
@@ -30,14 +30,13 @@
 
 // testApi()
 
-// require('dotenv').config();
+require('dotenv').config();
 
 // const secretKey = process.env.SECRET_KEY
 
 // console.log(secretKey);
 
 // const { v4 } = require("uuid")
-
 
 // let uuids = []
 // let flag = false
@@ -88,8 +87,33 @@
 
 // console.log(test());
 
-const { v4 } = require("uuid")
+const nodemailer = require("nodemailer");
 
-const uuid = v4()
+const transport = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.GMAIL_EMAIL,
+    pass: process.env.GMAIL_APP_PASS,
+  },
+});
 
-console.log(uuid);
+const sendMail = () => {
+  const config = {
+    from: process.env.GMAIL_EMAIL,
+    to: "muhammadcatur.sp@gmail.com",
+    subject: "Nodemailer Test",
+    text: "Success send email"
+  }
+
+  transport.sendMail(config, (err, info) => {
+    if (!err) {
+      console.log("Success sent email", info);
+    } else {
+      console.log(err);
+    }
+  })
+}
+
+sendMail()
+
+// console.log(process.env.XENDIT_API_KEY);

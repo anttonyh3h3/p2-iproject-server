@@ -4,7 +4,7 @@ const { authorization } = require("../middlewares/auth")
 const router = require("express").Router();
 
 // Coaching routing endpoints
-router.post("/:id", Controller.createAppointment)
+router.post("/:uuid", Controller.createAppointment)
 
 // Get coaching data for logged user
 router.get("/", Controller.fetchUserCoaching)
